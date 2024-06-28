@@ -1,0 +1,6 @@
+id=eraselk_busybox
+name=eraselk Busybox
+version=v1.36.1
+versionCode=1361
+author=fastbooteraselk @ Feravolt
+description=Compiled with latest NDK, latest libpcre2, latest libselinux, and Ofast + LLVM Polly + LTO. Has all topjohnwu's patches. ARMv8/ARMv7 (ARM64 and ARMEABI).
