@@ -45,6 +45,7 @@ fi
 }
 
 # Check for another busybox
+if ! [ -d "/data/adb/modules/eraselk_toybox" ]; then
 if [ -e /system/xbin/busybox ]; then
 rm -rf $MODPATH
 abort "- Please uninstall another busybox from /system/xbin/ and reboot."
@@ -55,13 +56,14 @@ elif [ -e /vendor/bin/busybox ]; then
 rm -rf $MODPATH
 abort "- Please uninstall another busybox from /vendor/bin/ and reboot."
 fi
+fi
 
 # Extract Binary
 deploy
 
 # Install into /system/bin, if exists.
 if [ ! -e /system/xbin ]; then
-mkdir $MODPATH/system/bin
+mkdir -p $MODPATH/system/bin
 mv -f $BPATH/busybox $MODPATH/system/bin/busybox
 rm -Rf $BPATH
 ui_print "- Installing into /system/bin.."
