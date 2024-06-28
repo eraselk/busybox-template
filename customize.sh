@@ -45,14 +45,16 @@ fi
 }
 
 # Check for another busybox
-if ! [ -d "/data/adb/modules/eraselk_toybox" ]; then
+if ! [ -d "/data/adb/modules/eraselk_busybox" ]; then
 if [ -e /system/xbin/busybox ]; then
 rm -rf $MODPATH
 abort "- Please uninstall another busybox from /system/xbin/ and reboot."
-elif [ -e /system/bin/busybox ]; then
+fi
+if [ -e /system/bin/busybox ]; then
 rm -rf $MODPATH
 abort "- Please uninstall another busybox from /system/bin/ and reboot."
-elif [ -e /vendor/bin/busybox ]; then
+fi
+if [ -e /vendor/bin/busybox ]; then
 rm -rf $MODPATH
 abort "- Please uninstall another busybox from /vendor/bin/ and reboot."
 fi
