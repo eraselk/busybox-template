@@ -11,6 +11,9 @@ if ! [ -f "$MODDIR/installed" ]; then
 		chmod 775 $MODDIR/system/bin/busybox
 		chcon u:object_r:system_file:s0 $MODDIR/system/bin/busybox
 		$MODDIR/system/bin/busybox --install -s $MODDIR/system/bin/
+		for sd in /system/bin/*; do
+            rm -f $MODDIR/${sd}
+        done
 	fi
 	if [ -d "$MODDIR/system/xbin" ]; then
 		chown 0:0 $MODDIR/system/xbin/busybox

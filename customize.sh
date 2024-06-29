@@ -59,6 +59,10 @@ if ! [ -d "/data/adb/modules/eraselk_busybox" ]; then
 	fi
 fi
 
+if [ -d "/data/adb/modules/eraselk_busybox" ] && [ -f "/data/adb/modules/eraselk_busybox/installed" ]; then
+    rm -f /data/adb/modules/eraselk_busybox/installed
+fi
+
 # Extract Binary
 deploy
 
