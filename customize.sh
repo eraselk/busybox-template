@@ -6,6 +6,7 @@
 # is installing in recovery mode?
 $BOOTMODE || abort "Please install in Magisk App!"
 
+# Define external variables
 BPATH="$MODPATH/system/xbin"
 MODVER="$(grep_prop version ${TMPDIR}/module.prop)"
 
@@ -52,7 +53,7 @@ if [ -d "/data/adb/modules/eraselk_busybox" ]; then
     exit 1
 fi
 
-if ! [ -d "/data/adb/modules/enhanced_busybox" ]; then
+if ! [ -d "/data/adb/modules/${MODID}" ]; then
 	if [ -e /system/xbin/busybox ]; then
 		rm -rf $MODPATH
 		abort "- Please uninstall another busybox from /system/xbin/ and reboot."
@@ -67,8 +68,8 @@ if ! [ -d "/data/adb/modules/enhanced_busybox" ]; then
 	fi
 fi
 
-if [ -d "/data/adb/modules/enhanced_busybox" ] && [ -f "/data/adb/modules/enhanced_busybox/installed" ]; then
-    rm -f /data/adb/modules/enhanced_busybox/installed
+if [ -d "/data/adb/modules/${MODID}" ] && [ -f "/data/adb/modules/${MODID}/installed" ]; then
+    rm -f /data/adb/modules/${MODID}/installed
 fi
 
 # Extract Binary
@@ -87,5 +88,5 @@ if [ ! -e /system/xbin ]; then
 fi
 
 # Print Success
-ui_print "- Enhanced BusyBox installed successfully."
+ui_print "- ${MODNAME} installed successfully."
 ui_print "- Please reboot right now."
