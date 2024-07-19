@@ -13,7 +13,7 @@ MODVER="$(grep_prop version ${TMPDIR}/module.prop)"
 
 deploy() {
 
-	unzip -o "$ZIPFILE" 'system/*' -d $TMPDIR
+	unzip -qo "$ZIPFILE" 'system/*' -d $TMPDIR
 
 	# Init
 	chmod 755 $BPATH/*
