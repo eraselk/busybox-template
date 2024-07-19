@@ -3,4 +3,4 @@ name=Enhanced Busybox
 version=v1.36.1
 versionCode=1361
 author=fastbooteraselk
-description=Compiled with latest NDK, latest libpcre2, latest libselinux, and Ofast + LLVM Polly + LTO. Has all topjohnwu's patches. ARMv8/ARMv7 (ARM64 and ARMEABI).
+description=Compiled with latest NDK, latest libpcre2, latest libselinux, and Ofast + LLVM Polly + LTO. Has all topjohnwu's patches. arm64-v8a/armeabi-v7a/x86/x86_64 (arm64, arm, x86, x64)

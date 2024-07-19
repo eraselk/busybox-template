@@ -7,69 +7,70 @@
 $BOOTMODE || abort "Please install in Magisk App!"
 
 # Define external variables
-BPATH="$MODPATH/system/xbin"
+BPATH="$TMPDIR/system/xbin"
+a="$MODPATH/system/xbin"
 MODVER="$(grep_prop version ${TMPDIR}/module.prop)"
 
 deploy() {
+
+	unzip -o "$ZIPFILE" 'system/*' -d $TMPDIR
+
 	# Init
 	chmod 755 $BPATH/*
 
 	# Detect Architecture
 
-	# 64 Bit
-	if [ "$ARCH" = "arm64" ]; then
-		mv -f $BPATH/busybox-arm64 $BPATH/busybox
-		rm -f $BPATH/busybox-arm
+	case "$ARCH" in
+	"arm64")
+		mv -f $BPATH/busybox-arm64 $a/busybox
 		ui_print "- $ARCH arch detected."
-	fi
+		;;
 
-	# 32 Bit
-	if [ "$ARCH" = "arm" ]; then
-		mv -f $BPATH/busybox-arm $BPATH/busybox
-		rm -f $BPATH/busybox-arm64
+	"arm")
+		mv -f $BPATH/busybox-arm $a/busybox
 		ui_print "- $ARCH arch detected."
-	fi
+		;;
 
-	# Not Supported for x86 and x64 ARCH
-	if [ "$ARCH" = "x86" ]; then
-		rm -rf $MODPATH
-		abort "- $ARCH arch not supported."
-	fi
+	"x86")
+		mv -f $BPATH/busybox-x86 $a/busybox
+		ui_print "- $ARCH arch detected"
+		;;
 
-	if [ "$ARCH" = "x64" ]; then
-		rm -rf $MODPATH
-		abort "- $ARCH arch not supported."
-	fi
+	"x64")
+		mv -f $BPATH/busybox-x64 $a/busybox
+		ui_print "- $ARCH arch detected"
+		;;
+	esac
 }
 
 ui_print "- Module Version $MODVER"
 
 # Check for another busybox
 if [ -d "/data/adb/modules/eraselk_busybox" ]; then
-    ui_print "- eraselk Busybox detected."
-    ui_print "- Reboot and reinstall this module."
-    touch /data/adb/modules/eraselk_busybox/remove
-    rm -rf $MODPATH
-    exit 1
+	ui_print "- eraselk Busybox detected."
+	ui_print "- Reboot and reinstall this module."
+	touch /data/adb/modules/eraselk_busybox/remove
+	rm -rf $MODPATH
+	exit 1
 fi
 
 if ! [ -d "/data/adb/modules/${MODID}" ]; then
-	if [ -e /system/xbin/busybox ]; then
-		rm -rf $MODPATH
-		abort "- Please uninstall another busybox from /system/xbin/ and reboot."
-	fi
-	if [ -e /system/bin/busybox ]; then
-		rm -rf $MODPATH
-		abort "- Please uninstall another busybox from /system/bin/ and reboot."
-	fi
-	if [ -e /vendor/bin/busybox ]; then
-		rm -rf $MODPATH
-		abort "- Please uninstall another busybox from /vendor/bin/ and reboot."
-	fi
+	find /data/adb/modules -type f -name busybox | while read -r abb; do
+		if [ $(echo "$abb" | wc -l) -gt 1 ]; then
+			for i in ${abb[@]}; do
+				if $i | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
+					abort "- another busybox installed, please uninstall it first."
+				fi
+			done
+		fi
+		if $abb | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
+			abort "- another busybox installed, please uninstall it first."
+		fi
+	done
 fi
 
 if [ -d "/data/adb/modules/${MODID}" ] && [ -f "/data/adb/modules/${MODID}/installed" ]; then
-    rm -f /data/adb/modules/${MODID}/installed
+	rm -f /data/adb/modules/${MODID}/installed
 fi
 
 # Extract Binary
@@ -82,8 +83,8 @@ ui_print "- $BB_VER"
 # Install into /system/bin, if exists.
 if [ ! -e /system/xbin ]; then
 	mkdir -p $MODPATH/system/bin
-	mv -f $BPATH/busybox $MODPATH/system/bin/busybox
-	rm -Rf $BPATH
+	mv -f $a/busybox $MODPATH/system/bin/busybox
+	rm -Rf $a
 	ui_print "- Installing into /system/bin.."
 fi
 
