@@ -45,15 +45,6 @@ deploy() {
 
 ui_print "- Module Version $MODVER"
 
-# Check for another busybox
-if [ -d "/data/adb/modules/eraselk_busybox" ]; then
-	ui_print "- eraselk Busybox detected."
-	ui_print "- Reboot and reinstall this module."
-	touch /data/adb/modules/eraselk_busybox/remove
-	rm -rf $MODPATH
-	exit 1
-fi
-
 if ! [ -d "/data/adb/modules/${MODID}" ]; then
 	find /data/adb/modules -type f -name busybox | while read -r abb; do
 		if [ $(echo "$abb" | wc -l) -gt 1 ]; then
@@ -62,10 +53,11 @@ if ! [ -d "/data/adb/modules/${MODID}" ]; then
 					abort "- another busybox installed, please uninstall it first."
 				fi
 			done
-		fi
-		if $abb | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
-			abort "- another busybox installed, please uninstall it first."
-		fi
+		else
+		    if $abb | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
+			    abort "- another busybox installed, please uninstall it first."
+			fi
+        fi
 	done
 fi
 
