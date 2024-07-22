@@ -77,7 +77,7 @@ fi
 deploy
 
 # Print Busybox Version
-BB_VER=$($BPATH/busybox | head -n1 | cut -f1 -d'(')
+BB_VER=$($a/busybox | head -n1 | cut -f1 -d'(')
 ui_print "- $BB_VER"
 
 # Install into /system/bin, if exists.
