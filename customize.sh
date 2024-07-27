@@ -16,7 +16,7 @@ deploy() {
 	unzip -qo "$ZIPFILE" 'system/*' -d $TMPDIR
 
 	# Init
-	chmod 755 $BPATH/*
+	set_perm "$BPATH/busybox" 0 0 777
 
 	# Detect Architecture
 
@@ -46,19 +46,12 @@ deploy() {
 ui_print "- Module Version $MODVER"
 
 if ! [ -d "/data/adb/modules/${MODID}" ]; then
-	find /data/adb/modules -type f -name busybox | while read -r abb; do
-		if [ $(echo "$abb" | wc -l) -gt 1 ]; then
-			for i in ${abb[@]}; do
-				if $i | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
-					abort "- another busybox installed, please uninstall it first."
-				fi
-			done
-		else
-		    if $abb | head -n1 | grep -i 'busybox' >/dev/null 2>&1; then
-			    abort "- another busybox installed, please uninstall it first."
-			fi
+    find /data/adb/modules -maxdepth 1 -name -type d | while read -r another_bb; do
+        wleowleo="$(echo "$another_bb" | grep -i 'busybox')"
+        if [ -n "$wleowleo" ] && [ -d "$wleowleo" ] && [ -f "$wleowleo/module.prop" ]; then
+            touch "$wleowleo"/remove
         fi
-	done
+    done            
 fi
 
 if [ -d "/data/adb/modules/${MODID}" ] && [ -f "/data/adb/modules/${MODID}/installed" ]; then
@@ -69,7 +62,7 @@ fi
 deploy
 
 # Print Busybox Version
-BB_VER=$($a/busybox | head -n1 | cut -f1 -d'(')
+BB_VER="$($a/busybox | head -n1 | cut -f1 -d'(')"
 ui_print "- $BB_VER"
 
 # Install into /system/bin, if exists.

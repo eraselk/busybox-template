@@ -1,6 +1,6 @@
 id=enhanced_busybox
 name=Enhanced BusyBox
-version=v1.36.1
-versionCode=1361
+version=
+versionCode=
 author=fastbooteraselk
 description=Compiled with latest NDK and latest lib. Optimized with O3, LLVM Polly, Full LTO, and Identical Code Folding (ICF). Has all NDK patches. Supports arm, arm64, x86, and x64 arch.
