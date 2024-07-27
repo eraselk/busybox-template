@@ -16,7 +16,7 @@ deploy() {
 	unzip -qo "$ZIPFILE" 'system/*' -d $TMPDIR
 
 	# Init
-	set_perm "$BPATH/busybox" 0 0 777
+	set_perm "$BPATH/busybox*" 0 0 777
 
 	# Detect Architecture
 
