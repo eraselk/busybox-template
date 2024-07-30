@@ -3,4 +3,4 @@ name=Enhanced BusyBox
 version=
 versionCode=
 author=fastbooteraselk
-description=Compiled with latest NDK and latest lib. Optimized with O3, LLVM Polly, Full LTO, and Identical Code Folding (ICF). Has all NDK patches. Supports arm, arm64, x86, and x64 arch.
+description=Compiled with latest NDK and latest lib. Optimized with O3, LLVM Polly, Full LTO, and Identical Code Folding (ICF). Has all NDK patches. Supports arm and arm64 arch.
