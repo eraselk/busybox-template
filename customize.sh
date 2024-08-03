@@ -32,24 +32,26 @@ deploy() {
 		;;
 
 	"x86")
-		mv -f $BPATH/busybox-x86 $a/busybox
-		ui_print "- $ARCH arch detected"
+	        rm -rf $MODPATH
+	        rm -rf $NVBASE/modules/$MODID
+            abort "! $ARCH arch is not supported"
 		;;
 
 	"x64")
-		mv -f $BPATH/busybox-x64 $a/busybox
-		ui_print "- $ARCH arch detected"
+        rm -rf $MODPATH
+        rm -rf $NVBASE/modules/$MODID
+        abort "! $ARCH arch is not supported"
 		;;
 	esac
 }
 
 ui_print "- Module Version $MODVER"
 
-if ! [ -d "/data/adb/modules/${MODID}" ]; then
-    find /data/adb/modules -maxdepth 1 -name -type d | while read -r another_bb; do
+if ! [ -d "$NVBASE/modules/$MODID" ]; then
+    find $NVBASE/modules -maxdepth 1 -type d | while read -r another_bb; do
         wleowleo="$(echo "$another_bb" | grep -i 'busybox')"
-        if [ -n "$wleowleo" ] && [ -d "$wleowleo" ] && [ -f "$wleowleo/module.prop" ]; then
-            touch "$wleowleo"/remove
+        if [ -n "$wleowleo" ] && [ -f "$wleowleo/module.prop" ]; then
+            touch $wleowleo/remove
         fi
     done            
 fi
