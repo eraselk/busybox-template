@@ -54,12 +54,12 @@ fi
 deploy
 
 # Print Busybox Version
-BB_VER="$($a/busybox | head -n1 | cut -f1 -d'(')"
+BB_VER="$($BB_INSTALL_DIR/busybox | head -n1 | cut -f1 -d'(')"
 ui_print "- $BB_VER"
 
 if ! [ -d /system/xbin ]; then
-	mkdir $MODPATH/system/bin
-	mv -f $BB_INSTALL_DIR/busybox $MODPATH/system/bin/busybox
+	mkdir -p $MODPATH/system/bin
+	mv -f $BB_INSTALL_DIR/busybox $MODPATH/system/bin
 	rm -Rf $BB_INSTALL_DIR
 	ui_print "- Installing into /system/bin.."
 fi
