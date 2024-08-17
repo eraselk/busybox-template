@@ -4,8 +4,6 @@
 # Based on Brutal Busybox Installer Script
 $BOOTMODE || exit 1
 
-SKIPUNZIP=1
-
 # Define external variables
 BB_TEMP="$TMPDIR/system/xbin"
 BB_INSTALL_DIR="$MODPATH/system/xbin"
