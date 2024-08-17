@@ -33,14 +33,16 @@ deploy() {
 	esac
 }
 
-if ! [ -d "$NVBASE/modules/$MODID" ]; then
-    find $NVBASE/modules -maxdepth 1 -type d | while read -r another_bb; do
+if ! [ -d "/data/adb/modules/$MODID" ]; then
+    find /data/adb/modules -maxdepth 1 -type d | while read -r another_bb; do
         wleowleo="$(echo "$another_bb" | grep -i 'busybox')"
-        if [ -n "$wleowleo" ] && [ -f "$wleowleo/module.prop" ] && find $wleowleo -type f -name busybox &>/dev/null; then
-	    for i in $wleowleo; do
+	if [ -n "$wleowleo" ]; then
+	for i in $wleowleo; do
+        if [ -f "$i/module.prop" ] && find $i -type f -name busybox &>/dev/null; then
             touch $i/remove
-	    done
         fi
+	done
+	fi
     done            
 fi
 
