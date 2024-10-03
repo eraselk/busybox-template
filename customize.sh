@@ -64,5 +64,11 @@ if ! [ -d /system/xbin ]; then
 	ui_print "- Installing into /system/bin.."
 fi
 
+# Add support for /system/xbin
+if [ -d /system/xbin ]; then
+    rm -f $MODPATH/system/xbin/busybox-arm $MODPATH/system/xbin/busybox-arm64  $MODPATH/system/xbin/.placeholder
+    ui_print "- Installing into /system/xbin.."
+fi
+    
 ui_print "- $MODNAME installed successfully."
 ui_print "- Please reboot right now."
